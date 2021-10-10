@@ -1,2 +1,2 @@
-# education-api
-Education API
+# Education Api
+Service with api for education program
