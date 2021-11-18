@@ -1,6 +1,6 @@
-import { doesNotMatch } from "assert";
+import { JSObject } from "../../helpers/HelpersInterfaces";
 import { NextFunction, Request, Response } from "express";
-import HttpErrors from "../../helpers/ErrorsHTTP";
+import BaseRestInterface from "../../system/base/BaseRestInterface";
 import BaseController from "../../system/base/BaseController";
 import AuthService from "./AuthService";
 
@@ -9,6 +9,18 @@ export default class AuthController {
     try {
       AuthService.verifyToken(req);
       return next();
+    } catch (e) {
+      BaseController.resStatus(e, res);
+    }
+  }
+
+  static async login(req: Request, res: Response) {
+    try {
+      const data: JSObject = req.body;
+      const token = await AuthService.signToken(data);
+      res
+        .status(201)
+        .send(new BaseRestInterface(201, "success", token).formatSuccess());
     } catch (e) {
       BaseController.resStatus(e, res);
     }

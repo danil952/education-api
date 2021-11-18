@@ -1,6 +1,5 @@
 import Schema from "mongoose";
 import BaseModel from "../../system/base/BaseModel";
-import { JSObject } from "../../helpers/HelpersInterfaces";
 
 export default class UsersModel extends BaseModel {
   constructor() {

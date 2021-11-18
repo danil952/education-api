@@ -41,7 +41,7 @@ export default class AuthService {
 
   static async signToken(data: JSObject) {
     const user = await AuthService.UsersServiceModel.findOne({
-      $match: { login: data.login }
+      login: data.login
     });
     if (!user)
       throw new HttpErrors(
