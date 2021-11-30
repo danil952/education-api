@@ -1,5 +1,5 @@
-import { Router } from "express";
+import { Router } from 'express'
 
 export default class UsersTypesRoutes {
-  static init(_route: Router) {}
+	static init(_route: Router) {}
 }
