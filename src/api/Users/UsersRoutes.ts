@@ -3,6 +3,6 @@ import UsersController from "./UsersController";
 
 export default class UsersRoutes {
   static init(_route: Router) {
-    _route.post("/users/create", UsersController.createUser);
+    _route.post("/users", UsersController.createUser);
   }
 }

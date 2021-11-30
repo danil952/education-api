@@ -7,7 +7,7 @@ import { JSObject } from "../../helpers/HelpersInterfaces";
 import bcrypt from "bcryptjs";
 
 export default class UsersService {
-  public static UsersServiceModel = new BaseService(new UsersModel());
+  private static UsersServiceModel = new BaseService(new UsersModel());
   private static UsersTypesServiceModel = new BaseService(
     new UsersTypesModel()
   );
