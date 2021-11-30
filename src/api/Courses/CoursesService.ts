@@ -16,10 +16,10 @@ export default class CoursesService {
   static async createNewCourse(data: JSObject) {
     HelperClass.checkRequiredField("name", data, "string");
     HelperClass.checkRequiredField("description", data, "string");
-    HelperClass.checkRequiredField("teacherId", data, "string");
+    HelperClass.checkRequiredField("_teacherId", data, "string");
 
     const user = await CoursesService.UsersServiceModel.findById(
-      data.teacherId
+      data._teacherId
     );
     if (!user)
       throw new HttpErrors("No such user", HttpErrors.types.BadRequest);
@@ -31,5 +31,10 @@ export default class CoursesService {
       throw new HttpErrors("User type error", HttpErrors.types.Conflict);
 
     return await CoursesService.CoursesServiceModel.insertData(data);
+  }
+
+  static async getCourses() {
+    const pipeline = CoursesModel.teacherInfoAggregation();
+    return await CoursesService.CoursesServiceModel.groupBy(pipeline);
   }
 }

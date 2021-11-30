@@ -8,10 +8,31 @@ export default class CoursesModel extends BaseModel {
       {
         name: String,
         description: String,
-        teacherId: { ref: "users", type: Schema.Types.ObjectId }
+        _teacherId: { ref: "users", type: Schema.Types.ObjectId }
       },
       { timestamps: true },
       [{ name: -1 }]
     );
+  }
+
+  static teacherInfoAggregation() {
+    return [
+      {
+        $lookup: {
+          from: "users",
+          localField: "_teacherId",
+          foreignField: "_id",
+          as: "teacher"
+        }
+      },
+      { $unwind: { path: "$teacher", preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          __v: 0,
+          createdAt: 0,
+          updatedAt: 0
+        }
+      }
+    ];
   }
 }

@@ -9,5 +9,6 @@ export default class CoursesRoutes {
       [AuthController.checkJWT, AuthController.middlewareAdmin],
       CoursesController.createCourse
     );
+    _route.get("/courses", CoursesController.getCourses);
   }
 }

@@ -16,4 +16,15 @@ export default class CoursesController extends BaseController {
       BaseController.resStatus(e, res);
     }
   }
+
+  static async getCourses(req: Request, res: Response) {
+    try {
+      const records = await CoursesService.getCourses();
+      res
+        .status(201)
+        .send(new BaseRestInterface(201, "success", records).formatSuccess());
+    } catch (e) {
+      BaseController.resStatus(e, res);
+    }
+  }
 }
