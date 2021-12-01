@@ -4,6 +4,7 @@ import UsersTypesRoutes from './UsersTypes/UsersTypesRoutes'
 import AuthRoutes from './Authorization/AuthRoutes'
 import CoursesRoutes from './Courses/CoursesRoutes'
 import LessonsRoutes from './Lessons/LessonsRoutes'
+import StudentsCoursesRoutes from './StudentsCourses/studentsCoursesRoutes'
 
 export class Routes {
 	public _route: Router
@@ -17,6 +18,7 @@ export class Routes {
 		AuthRoutes.init(this._route)
 		CoursesRoutes.init(this._route)
 		LessonsRoutes.init(this._route)
+		StudentsCoursesRoutes.init(this._route)
 		return this._route
 	}
 }
