@@ -7,7 +7,7 @@ import LessonsService from './LessonsService'
 export default class LessonsController extends BaseController {
 	static async createLesson(req: JSObject, res: Response) {
 		const data: JSObject = req.body
-		const _teacherId: string = req.jwt.data._id
+		const _teacherId: string = req.jwt.id
 		try {
 			const newLesson = await LessonsService.createNewLesson(data, _teacherId)
 			res.status(201).send(new BaseRestInterface(201, 'success', newLesson).formatSuccess())

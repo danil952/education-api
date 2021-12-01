@@ -17,8 +17,8 @@ export default class AuthController {
 	static async login(req: Request, res: Response) {
 		try {
 			const data: JSObject = req.body
-			const token = await AuthService.signToken(data)
-			res.status(201).send(new BaseRestInterface(201, 'success', token).formatSuccess())
+			const userData = await AuthService.signToken(data)
+			res.status(201).send(new BaseRestInterface(201, 'success', userData).formatSuccess())
 		} catch (e) {
 			BaseController.resStatus(e, res)
 		}

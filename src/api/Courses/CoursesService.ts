@@ -20,7 +20,7 @@ export default class CoursesService {
 		if (!user) throw new HttpErrors('No such user', HttpErrors.types.BadRequest)
 
 		const userType = await CoursesService.UsersTypesServiceModel.findById(user.type)
-		if (userType.name !== 'teacher')
+		if (userType.type !== 'professor')
 			throw new HttpErrors('User type error', HttpErrors.types.Conflict)
 
 		return await CoursesService.CoursesServiceModel.insertData(data)

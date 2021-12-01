@@ -47,14 +47,20 @@ export default class AuthService {
 			expiresIn: 86400 // 24 hours
 		})
 
-		return token
+		const userData = {
+			token,
+			fio: user.fio,
+			login: user.login
+		}
+
+		return userData
 	}
 
 	static async checkUserType(req: JSObject, type: string) {
-		const userId = req.jwt.data.id
+		const userId = req.jwt.id
 		const user = await AuthService.UsersServiceModel.findById(userId)
 		if (!user) throw new HttpErrors('No such user', HttpErrors.types.BadRequest)
-		const userType = await AuthService.UserTypesServiceModel.findById(user.userTypeId)
+		const userType = await AuthService.UserTypesServiceModel.findById(user.type)
 		if (userType.type !== type)
 			throw new HttpErrors('Permission denied', HttpErrors.types.Forbidden)
 	}
