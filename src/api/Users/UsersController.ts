@@ -9,7 +9,11 @@ export default class UsersController extends BaseController {
 		const data: JSObject = req.body
 		try {
 			const newUser = await UsersService.createNewUser(data, 'student')
-			res.status(201).send(new BaseRestInterface(201, 'success', newUser).formatSuccess())
+			const newData = {
+				fio: newUser.fio,
+				login: newUser.login
+			}
+			res.status(201).send(new BaseRestInterface(201, 'success', newData).formatSuccess())
 		} catch (e) {
 			BaseController.resStatus(e, res)
 		}

@@ -2,7 +2,6 @@
   "name": "education-api",
   "version": "0.0.1",
   "description": "Service with api for education app",
-  "main": "dist/index.js",
   "scripts": {
     "start": "node ${npm_package_main}",
     "dev": "nodemon --exec \"NODE_ENV=dev ts-node src/index.ts\"",
@@ -53,6 +52,7 @@
     "@types/node": "^14.14.20",
     "@types/node-fetch": "^2.5.10",
     "@types/nodemailer": "^6.4.1",
+    "@types/sinon": "^10.0.6",
     "chai": "^4.3.4",
     "copyfiles": "^2.4.1",
     "husky": "^2.5.0",
