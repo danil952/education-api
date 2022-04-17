@@ -9,7 +9,7 @@ export default class ScoresController extends BaseController {
 		const data: JSObject = req.body
 		const userId: string = req.jwt.id
 		try {
-			const result = ScoresService.createNewScore(data, userId)
+			const result = await ScoresService.createNewScore(data, userId)
 			res.status(201).send(new BaseRestInterface(201, 'success', result).formatSuccess())
 		} catch (e) {
 			BaseController.resStatus(e, res)
