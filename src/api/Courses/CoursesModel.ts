@@ -30,7 +30,16 @@ export default class CoursesModel extends BaseModel {
 				$project: {
 					__v: 0,
 					createdAt: 0,
-					updatedAt: 0
+					updatedAt: 0,
+					teacher: {
+						_id: 0,
+						login: 0,
+						password: 0,
+						type: 0,
+						createdAt: 0,
+						updatedAt: 0,
+						__v: 0
+					}
 				}
 			}
 		]
