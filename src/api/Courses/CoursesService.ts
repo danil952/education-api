@@ -15,6 +15,7 @@ export default class CoursesService {
 		HelperClass.checkRequiredField('name', data, 'string')
 		HelperClass.checkRequiredField('description', data, 'string')
 		HelperClass.checkRequiredField('_teacherId', data, 'string')
+		HelperClass.checkID(data._teacherId)
 
 		const user = await CoursesService.UsersServiceModel.findById(data._teacherId)
 		if (!user) throw new HttpErrors('No such user', HttpErrors.types.BadRequest)
