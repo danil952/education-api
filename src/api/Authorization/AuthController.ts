@@ -26,7 +26,7 @@ export default class AuthController {
 
 	static async middlewareProfessor(req: Request, res: Response, next: NextFunction) {
 		try {
-			AuthService.checkUserType(req, 'professor')
+			await AuthService.checkUserType(req, 'professor')
 			return next()
 		} catch (e) {
 			BaseController.resStatus(e, res)
@@ -35,7 +35,7 @@ export default class AuthController {
 
 	static async middlewareAdmin(req: Request, res: Response, next: NextFunction) {
 		try {
-			AuthService.checkUserType(req, 'admin')
+			await AuthService.checkUserType(req, 'admin')
 			return next()
 		} catch (e) {
 			BaseController.resStatus(e, res)

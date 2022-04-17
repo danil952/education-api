@@ -18,4 +18,18 @@ export default class UsersController extends BaseController {
 			BaseController.resStatus(e, res)
 		}
 	}
+
+	static async createProfessor(req: Request, res: Response) {
+		const data: JSObject = req.body
+		try {
+			const newUser = await UsersService.createNewUser(data, 'professor')
+			const newData = {
+				fio: newUser.fio,
+				login: newUser.login
+			}
+			res.status(201).send(new BaseRestInterface(201, 'success', newData).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
 }
