@@ -10,6 +10,7 @@ export default class LessonsService {
 	private static CoursesServiceModel = new BaseService(new CoursesModel())
 
 	static async createNewLesson(data: JSObject, _teacherId: string) {
+		HelperClass.checkRequiredField('_courseId', data, 'string')
 		HelperClass.checkID(data._courseId)
 		HelperClass.checkRequiredField('indexNumber', data, 'number')
 
