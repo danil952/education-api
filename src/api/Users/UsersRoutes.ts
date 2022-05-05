@@ -10,5 +10,6 @@ export default class UsersRoutes {
 			[AuthController.checkJWT, AuthController.middlewareAdmin],
 			UsersController.createProfessor
 		)
+		_route.get('/users/professors', UsersController.getProffessors)
 	}
 }

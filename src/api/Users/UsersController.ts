@@ -32,4 +32,13 @@ export default class UsersController extends BaseController {
 			BaseController.resStatus(e, res)
 		}
 	}
+
+	static async getProffessors(req: Request, res: Response) {
+		try {
+			const data = await UsersService.getProfessorsData()
+			res.status(200).send(new BaseRestInterface(200, 'success', data).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
 }

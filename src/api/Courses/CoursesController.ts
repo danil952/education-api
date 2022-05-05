@@ -15,10 +15,32 @@ export default class CoursesController extends BaseController {
 		}
 	}
 
+	static async updateCourse(req: Request, res: Response) {
+		const data: JSObject = req.body
+		try {
+			const { _id } = req.params as { _id: string }
+			const updatedCourse = await CoursesService.updateCourse(data, _id)
+			res.status(201).send(new BaseRestInterface(201, 'success', updatedCourse).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
+
+	static async deleteCourse(req: Request, res: Response) {
+		const data: JSObject = req.body
+		try {
+			const { _id } = req.params as { _id: string }
+			const updatedCourse = await CoursesService.deleteCourse(_id)
+			res.status(201).send(new BaseRestInterface(201, 'success', updatedCourse).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
+
 	static async getCourses(req: Request, res: Response) {
 		try {
 			const records = await CoursesService.getCourses()
-			res.status(201).send(new BaseRestInterface(201, 'success', records).formatSuccess())
+			res.status(201).send(new BaseRestInterface(200, 'success', records).formatSuccess())
 		} catch (e) {
 			BaseController.resStatus(e, res)
 		}

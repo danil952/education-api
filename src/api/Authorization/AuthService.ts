@@ -46,11 +46,13 @@ export default class AuthService {
 		const token = jwt.sign({ id: user._id }, config.secret, {
 			expiresIn: 86400 // 24 hours
 		})
+		const userType = await AuthService.UserTypesServiceModel.findById(user.type)
 
 		const userData = {
 			token,
 			fio: user.fio,
-			login: user.login
+			login: user.login,
+			type: userType.type
 		}
 
 		return userData

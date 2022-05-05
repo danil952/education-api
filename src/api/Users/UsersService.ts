@@ -31,4 +31,25 @@ export default class UsersService {
 
 		return await UsersService.UsersServiceModel.insertData(data)
 	}
+
+	static async getProfessorsData() {
+		const professorTypeId = await UsersService.UsersTypesServiceModel.getDataByQuery({
+			type: 'professor'
+		})
+		const pipeline = [
+			{ $match: { type: professorTypeId[0]._id } },
+			{
+				$project: {
+					__v: 0,
+					createdAt: 0,
+					updatedAt: 0,
+					login: 0,
+					password: 0,
+					type: 0
+				}
+			}
+		]
+
+		return await UsersService.UsersServiceModel.groupBy(pipeline)
+	}
 }
