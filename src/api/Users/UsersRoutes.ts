@@ -10,6 +10,7 @@ export default class UsersRoutes {
 			[AuthController.checkJWT, AuthController.middlewareAdmin],
 			UsersController.createProfessor
 		)
-		_route.get('/users/professors', UsersController.getProffessors)
+		_route.patch('/users/:_id', [AuthController.checkJWT], UsersController.updateUser)
+		_route.get('/users/professors', UsersController.getProfessors)
 	}
 }

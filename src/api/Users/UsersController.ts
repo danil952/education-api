@@ -19,6 +19,23 @@ export default class UsersController extends BaseController {
 		}
 	}
 
+	static async updateUser(req: JSObject, res: Response) {
+		try {
+			const data: JSObject = req.body
+			data._userId = req.jwt.id
+			const { _id } = req.params as { _id: string }
+
+			const updatedUser = await UsersService.updateUser(data, _id)
+			const resData = {
+				fio: updatedUser.fio,
+				login: updatedUser.login
+			}
+			res.status(201).send(new BaseRestInterface(201, 'success', resData).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
+
 	static async createProfessor(req: Request, res: Response) {
 		const data: JSObject = req.body
 		try {
@@ -33,7 +50,7 @@ export default class UsersController extends BaseController {
 		}
 	}
 
-	static async getProffessors(req: Request, res: Response) {
+	static async getProfessors(req: Request, res: Response) {
 		try {
 			const data = await UsersService.getProfessorsData()
 			res.status(200).send(new BaseRestInterface(200, 'success', data).formatSuccess())
