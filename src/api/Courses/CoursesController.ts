@@ -30,8 +30,8 @@ export default class CoursesController extends BaseController {
 		const data: JSObject = req.body
 		try {
 			const { _id } = req.params as { _id: string }
-			const updatedCourse = await CoursesService.deleteCourse(_id)
-			res.status(201).send(new BaseRestInterface(201, 'success', updatedCourse).formatSuccess())
+			const deletedCourse = await CoursesService.deleteCourse(_id)
+			res.status(201).send(new BaseRestInterface(201, 'success', deletedCourse).formatSuccess())
 		} catch (e) {
 			BaseController.resStatus(e, res)
 		}

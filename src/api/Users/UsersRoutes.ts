@@ -12,5 +12,10 @@ export default class UsersRoutes {
 		)
 		_route.patch('/users/:_id', [AuthController.checkJWT], UsersController.updateUser)
 		_route.get('/users/professors', UsersController.getProfessors)
+		_route.delete(
+			'/users/:_id',
+			[AuthController.checkJWT, AuthController.middlewareAdmin],
+			UsersController.deleteUser
+		)
 	}
 }

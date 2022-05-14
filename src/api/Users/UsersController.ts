@@ -36,6 +36,18 @@ export default class UsersController extends BaseController {
 		}
 	}
 
+	static async deleteUser(req: JSObject, res: Response) {
+		try {
+			const data: JSObject = req.body
+			const { _id } = req.params as { _id: string }
+
+			const deletedUser = await UsersService.deleteUser(_id)
+			res.status(201).send(new BaseRestInterface(201, 'success', deletedUser).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
+
 	static async createProfessor(req: Request, res: Response) {
 		const data: JSObject = req.body
 		try {

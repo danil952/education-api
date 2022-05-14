@@ -5,10 +5,13 @@ import HelperClass from '../../helpers/HelperClass'
 import HttpErrors from '../../helpers/ErrorsHTTP'
 import { JSObject } from '../../helpers/HelpersInterfaces'
 import bcrypt from 'bcryptjs'
+import CoursesModel from '../Courses/CoursesModel'
+import CoursesService from '../Courses/CoursesService'
 
 export default class UsersService {
 	private static UsersServiceModel = new BaseService(new UsersModel())
 	private static UsersTypesServiceModel = new BaseService(new UsersTypesModel())
+	private static CoursesServiceModel = new BaseService(new CoursesModel())
 
 	static async createNewUser(data: JSObject, type: String) {
 		HelperClass.checkRequiredField('login', data, 'string')
@@ -37,8 +40,6 @@ export default class UsersService {
 		const senderType = await UsersService.UsersTypesServiceModel.findById(sender.type)
 		const user = await UsersService.UsersServiceModel.findById(_id)
 
-		console.log(data)
-
 		if (senderType.type !== 'admin' && user._id !== sender._id)
 			throw new HttpErrors('Permission denied', HttpErrors.types.Forbidden)
 
@@ -59,6 +60,21 @@ export default class UsersService {
 		if (data.fio) user.fio = data.fio
 
 		return await UsersService.UsersServiceModel.updateData(_id, user, { new: true })
+	}
+
+	static async deleteUser(_id: string) {
+		const user = await UsersService.UsersServiceModel.findById(_id)
+		const userCourses = await UsersService.CoursesServiceModel.getDataByQuery({
+			_teacherId: user._id
+		})
+
+		console.log(userCourses)
+
+		for (const course of userCourses) {
+			await CoursesService.deleteCourse(course._id)
+		}
+
+		return await UsersService.UsersServiceModel.deleteData(user._id)
 	}
 
 	static async getProfessorsData() {

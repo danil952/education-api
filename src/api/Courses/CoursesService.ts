@@ -5,11 +5,15 @@ import HelperClass from '../../helpers/HelperClass'
 import { JSObject } from '../../helpers/HelpersInterfaces'
 import HttpErrors from '../../helpers/ErrorsHTTP'
 import UsersTypesModel from '../UsersTypes/UsersTypesModel'
+import LessonsModel from '../Lessons/LessonsModel'
+import ScoresModel from '../Scores/ScoresModel'
 
 export default class CoursesService {
 	private static CoursesServiceModel = new BaseService(new CoursesModel())
 	private static UsersServiceModel = new BaseService(new UsersModel())
 	private static UsersTypesServiceModel = new BaseService(new UsersTypesModel())
+	private static LessonsServiceModel = new BaseService(new LessonsModel())
+	private static ScoresServiceModel = new BaseService(new ScoresModel())
 
 	static async createNewCourse(data: JSObject) {
 		HelperClass.checkRequiredField('name', data, 'string')
@@ -48,6 +52,22 @@ export default class CoursesService {
 		HelperClass.checkID(_courseId)
 		const course = await CoursesService.CoursesServiceModel.findById(_courseId)
 		if (!course) throw new HttpErrors('No such course', HttpErrors.types.BadRequest)
+		const lessons =
+			(await CoursesService.LessonsServiceModel.getDataByQuery({
+				_courseId: course._id
+			})) || []
+
+		for (const lesson of lessons) {
+			await CoursesService.LessonsServiceModel.deleteData(lesson._id)
+			const scores =
+				(await CoursesService.ScoresServiceModel.getDataByQuery({
+					_lessonId: lesson._id
+				})) || []
+
+			for (const score of scores) {
+				await CoursesService.ScoresServiceModel.deleteData(score._id)
+			}
+		}
 
 		return await CoursesService.CoursesServiceModel.deleteData(_courseId)
 	}
