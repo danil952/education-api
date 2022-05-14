@@ -36,6 +36,16 @@ export default class UsersController extends BaseController {
 		}
 	}
 
+	static async getUserInfo(req: Request, res: Response) {
+		try {
+			const { login } = req.params as { login: string }
+			const data = await UsersService.getUserDataByLogin(login)
+			res.status(200).send(new BaseRestInterface(200, 'success', data).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
+
 	static async deleteUser(req: JSObject, res: Response) {
 		try {
 			const data: JSObject = req.body

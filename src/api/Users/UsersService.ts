@@ -68,13 +68,22 @@ export default class UsersService {
 			_teacherId: user._id
 		})
 
-		console.log(userCourses)
-
 		for (const course of userCourses) {
 			await CoursesService.deleteCourse(course._id)
 		}
 
 		return await UsersService.UsersServiceModel.deleteData(user._id)
+	}
+
+	static async getUserDataByLogin(login: string) {
+		const user = await UsersService.UsersServiceModel.findOne({ login })
+		if (!user) throw new HttpErrors('No such user', HttpErrors.types.Conflict)
+
+		return {
+			login: user.login,
+			fio: user.fio,
+			createdAt: user.createdAt
+		}
 	}
 
 	static async getProfessorsData() {
