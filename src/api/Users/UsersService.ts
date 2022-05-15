@@ -45,7 +45,7 @@ export default class UsersService {
 
 		if (data.login) {
 			const isUserExists = await UsersService.UsersServiceModel.dataExists({
-				login: { $regex: data.login, $options: 'i' }
+				login: data.login
 			})
 			if (isUserExists)
 				throw new HttpErrors('User with such login already exists', HttpErrors.types.Conflict)
@@ -80,6 +80,7 @@ export default class UsersService {
 		if (!user) throw new HttpErrors('No such user', HttpErrors.types.Conflict)
 
 		return {
+			_id: user._id,
 			login: user.login,
 			fio: user.fio,
 			createdAt: user.createdAt
