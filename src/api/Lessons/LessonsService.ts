@@ -13,6 +13,7 @@ export default class LessonsService {
 		HelperClass.checkRequiredField('_courseId', data, 'string')
 		HelperClass.checkID(data._courseId)
 		HelperClass.checkRequiredField('indexNumber', data, 'number')
+		HelperClass.checkRequiredField('name', data, 'string')
 
 		const course = await LessonsService.CoursesServiceModel.findById(data._courseId)
 		if (!course || course._teacherId.toString() !== _teacherId)
@@ -24,5 +25,9 @@ export default class LessonsService {
 		if (indexNumberUsed) throw new HttpErrors('Index number is in use', HttpErrors.types.BadRequest)
 
 		return await LessonsService.LessonsServiceModel.insertData(data)
+	}
+
+	static async getLessonsByCourseId(_courseId: string) {
+		return (await LessonsService.LessonsServiceModel.getDataByQuery({ _courseId })) || []
 	}
 }

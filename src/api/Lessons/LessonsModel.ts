@@ -8,7 +8,8 @@ export default class LessonsModel extends BaseModel {
 			{
 				_courseId: { ref: 'courses', type: Schema.Types.ObjectId },
 				indexNumber: { type: Number, required: true },
-				lecture: [String],
+				name: String,
+				lecture: String,
 				practise: [String],
 				keys: [String]
 			},

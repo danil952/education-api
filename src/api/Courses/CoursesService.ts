@@ -1,3 +1,4 @@
+import Schema from 'mongoose'
 import BaseService from '../../system/base/BaseService'
 import UsersModel from '../Users/UsersModel'
 import CoursesModel from './CoursesModel'
@@ -74,6 +75,16 @@ export default class CoursesService {
 
 	static async getCourses() {
 		const pipeline = CoursesModel.teacherInfoAggregation()
+		return await CoursesService.CoursesServiceModel.groupBy(pipeline)
+	}
+
+	static async getCoursesProfessor(_teacherId: string) {
+		const pipeline = [
+			{
+				$match: { _teacherId: Schema.Types.ObjectId(_teacherId) }
+			},
+			...CoursesModel.LessonsInfoAggregation()
+		]
 		return await CoursesService.CoursesServiceModel.groupBy(pipeline)
 	}
 }

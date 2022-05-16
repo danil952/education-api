@@ -5,6 +5,11 @@ import CoursesController from './CoursesController'
 export default class CoursesRoutes {
 	static init(_route: Router) {
 		_route.get('/courses', CoursesController.getCourses)
+		_route.get(
+			'/courses/professor/',
+			[AuthController.checkJWT, AuthController.middlewareProfessor],
+			CoursesController.getCoursesProfessor
+		)
 		_route.post(
 			'/courses',
 			[AuthController.checkJWT, AuthController.middlewareAdmin],

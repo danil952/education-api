@@ -9,5 +9,6 @@ export default class LessonsRoutes {
 			[AuthController.checkJWT, AuthController.middlewareProfessor],
 			LessonsController.createLesson
 		)
+		_route.get('/lessons/course/:_id', LessonsController.getLessonsCourse)
 	}
 }

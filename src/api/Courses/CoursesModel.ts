@@ -44,4 +44,24 @@ export default class CoursesModel extends BaseModel {
 			}
 		]
 	}
+
+	static LessonsInfoAggregation() {
+		return [
+			{
+				$lookup: {
+					from: 'lessons',
+					localField: '_id',
+					foreignField: '_courseId',
+					as: 'lessonsData'
+				}
+			},
+			{
+				$project: {
+					__v: 0,
+					createdAt: 0,
+					updatedAt: 0
+				}
+			}
+		]
+	}
 }
