@@ -9,5 +9,10 @@ export default class StudentsCoursesRoutes {
 			[AuthController.checkJWT],
 			StudentsCoursesController.createRecord
 		)
+		_route.get(
+			'/studentsCourses/subscribe',
+			[AuthController.checkJWT],
+			StudentsCoursesController.getStudentCourses
+		)
 	}
 }

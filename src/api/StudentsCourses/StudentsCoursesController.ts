@@ -15,4 +15,14 @@ export default class StudentsCoursesController extends BaseController {
 			BaseController.resStatus(e, res)
 		}
 	}
+
+	static async getStudentCourses(req: JSObject, res: Response) {
+		const studentId: string = req.jwt.id
+		try {
+			const newRecord = await StudentsCoursesService.getStudentCourses(studentId)
+			res.status(201).send(new BaseRestInterface(201, 'success', newRecord).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
 }

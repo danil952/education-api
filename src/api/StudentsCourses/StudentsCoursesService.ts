@@ -1,3 +1,4 @@
+import Schema from 'mongoose'
 import BaseService from '../../system/base/BaseService'
 import HelperClass from '../../helpers/HelperClass'
 import { JSObject } from '../../helpers/HelpersInterfaces'
@@ -16,6 +17,12 @@ export default class StudentsCoursesService {
 		HelperClass.checkID(data._courseId)
 		HelperClass.checkID(userId)
 
+		const recordExists = await StudentsCoursesService.CoursesServiceModel.findOne({
+			_courseId: Schema.Types.ObjectId(data._courseId),
+			_studentId: Schema.Types.ObjectId(userId)
+		})
+		if (recordExists) throw new HttpErrors('Record exists', HttpErrors.types.BadRequest)
+
 		const course = await StudentsCoursesService.CoursesServiceModel.findById(data._courseId)
 		if (!course) throw new HttpErrors('No such course', HttpErrors.types.BadRequest)
 
@@ -27,5 +34,16 @@ export default class StudentsCoursesService {
 		data._studentId = userId
 
 		return await StudentsCoursesService.StudentsCoursesServiceModel.insertData(data)
+	}
+
+	static async getStudentCourses(studentId: string) {
+		const pipeline = [
+			{
+				$match: { _studentId: Schema.Types.ObjectId(studentId) }
+			},
+			...StudentsCoursesModel.CoursesInfoAggregation()
+		]
+
+		return await StudentsCoursesService.StudentsCoursesServiceModel.groupBy(pipeline)
 	}
 }

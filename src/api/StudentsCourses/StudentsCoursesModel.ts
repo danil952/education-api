@@ -13,4 +13,34 @@ export default class StudentsCoursesModel extends BaseModel {
 			[{ _studentId: -1 }]
 		)
 	}
+
+	static CoursesInfoAggregation() {
+		return [
+			{
+				$lookup: {
+					from: 'courses',
+					localField: '_courseId',
+					foreignField: '_id',
+					as: 'courseData'
+				}
+			},
+			{ $unwind: { path: '$courseData', preserveNullAndEmptyArrays: true } },
+			{
+				$lookup: {
+					from: 'users',
+					localField: 'courseData._teacherId',
+					foreignField: '_id',
+					as: 'teacher'
+				}
+			},
+			{ $unwind: '$teacher' },
+			{
+				$project: {
+					__v: 0,
+					createdAt: 0,
+					updatedAt: 0
+				}
+			}
+		]
+	}
 }
