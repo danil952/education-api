@@ -12,17 +12,22 @@ export default class LessonsService {
 	static async createNewLesson(data: JSObject, _teacherId: string) {
 		HelperClass.checkRequiredField('_courseId', data, 'string')
 		HelperClass.checkID(data._courseId)
-		HelperClass.checkRequiredField('indexNumber', data, 'number')
 		HelperClass.checkRequiredField('name', data, 'string')
 
 		const course = await LessonsService.CoursesServiceModel.findById(data._courseId)
 		if (!course || course._teacherId.toString() !== _teacherId)
 			throw new HttpErrors('No access for this course', HttpErrors.types.Forbidden)
 
-		const indexNumberUsed = await LessonsService.LessonsServiceModel.dataExists({
-			indexNumber: data.indexNumber
-		})
-		if (indexNumberUsed) throw new HttpErrors('Index number is in use', HttpErrors.types.BadRequest)
+		const lastLesson = (
+			await LessonsService.LessonsServiceModel.getData(
+				{ _courseId: data._courseId },
+				{ indexNumber: -1 },
+				1,
+				0
+			)
+		)[0]
+
+		data.indexNumber = lastLesson.indexNumber + 1
 
 		return await LessonsService.LessonsServiceModel.insertData(data)
 	}
