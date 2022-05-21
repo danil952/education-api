@@ -10,6 +10,7 @@ export default class CoursesRoutes {
 			[AuthController.checkJWT, AuthController.middlewareProfessor],
 			CoursesController.getCoursesProfessor
 		)
+		_route.get('/courses/:_id', CoursesController.getCourseById)
 		_route.post(
 			'/courses',
 			[AuthController.checkJWT, AuthController.middlewareAdmin],

@@ -78,6 +78,16 @@ export default class CoursesService {
 		return await CoursesService.CoursesServiceModel.groupBy(pipeline)
 	}
 
+	static async getCourseInfoById(_id: string) {
+		const pipeline = [
+			{
+				$match: { _id: Schema.Types.ObjectId(_id) }
+			},
+			...CoursesModel.LessonsInfoAggregation()
+		]
+		return (await CoursesService.CoursesServiceModel.groupBy(pipeline))[0] || {}
+	}
+
 	static async getCoursesProfessor(_teacherId: string) {
 		const pipeline = [
 			{

@@ -46,6 +46,16 @@ export default class CoursesController extends BaseController {
 		}
 	}
 
+	static async getCourseById(req: Request, res: Response) {
+		try {
+			const { _id } = req.params as { _id: string }
+			const course = await CoursesService.getCourseInfoById(_id)
+			res.status(201).send(new BaseRestInterface(200, 'success', course).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
+
 	static async getCoursesProfessor(req: JSObject, res: Response) {
 		try {
 			const _teacherId = req.jwt.id
