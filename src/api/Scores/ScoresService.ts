@@ -1,3 +1,4 @@
+import Schema from 'mongoose'
 import BaseService from '../../system/base/BaseService'
 import HelperClass from '../../helpers/HelperClass'
 import { JSObject } from '../../helpers/HelpersInterfaces'
@@ -45,5 +46,15 @@ export default class ScoresService {
 		}
 
 		return await ScoresService.ScoresServiceModel.insertData(scoreData)
+	}
+
+	static async getMarksInfo(userId: string) {
+		const pipeline = [
+			{
+				$match: { _studentId: Schema.Types.ObjectId(userId) }
+			},
+			...ScoresModel.lessonInfoAggregation()
+		]
+		return await ScoresService.ScoresServiceModel.groupBy(pipeline)
 	}
 }

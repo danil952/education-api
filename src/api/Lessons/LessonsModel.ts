@@ -10,7 +10,6 @@ export default class LessonsModel extends BaseModel {
 				indexNumber: { type: Number, required: true },
 				name: String,
 				lecture: String,
-				practise: [String],
 				keys: [String]
 			},
 			{ timestamps: true },

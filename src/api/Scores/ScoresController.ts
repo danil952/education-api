@@ -15,4 +15,14 @@ export default class ScoresController extends BaseController {
 			BaseController.resStatus(e, res)
 		}
 	}
+
+	static async getUserScores(req: JSObject, res: Response) {
+		const userId: string = req.jwt.id
+		try {
+			const scores = await ScoresService.getMarksInfo(userId)
+			res.status(201).send(new BaseRestInterface(201, 'success', scores).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
 }
