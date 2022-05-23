@@ -57,11 +57,11 @@ export default class LessonsService {
 		return await LessonsService.LessonsServiceModel.updateData(_id, lesson, { new: true })
 	}
 
-	static async getLessonsByCourseId(_courseId: string) {
-		return (await LessonsService.LessonsServiceModel.getDataByQuery({ _courseId })) || []
-	}
-
 	static async getLessonsById(_id: string) {
 		return await LessonsService.LessonsServiceModel.findById(_id)
+	}
+
+	static async getLessonsMarks() {
+		return await LessonsService.LessonsServiceModel.groupBy(LessonsModel.marksInfoAggregation())
 	}
 }

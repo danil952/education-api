@@ -28,23 +28,21 @@ export default class LessonsController extends BaseController {
 		}
 	}
 
-	static async getLessonsCourse(req: JSObject, res: Response) {
-		try {
-			const { _id } = req.params as { _id: string }
-
-			const lessons = await LessonsService.getLessonsByCourseId(_id)
-			res.status(201).send(new BaseRestInterface(201, 'success', lessons).formatSuccess())
-		} catch (e) {
-			BaseController.resStatus(e, res)
-		}
-	}
-
 	static async getLessonById(req: JSObject, res: Response) {
 		try {
 			const { _id } = req.params as { _id: string }
 
 			const lesson = await LessonsService.getLessonsById(_id)
 			res.status(201).send(new BaseRestInterface(201, 'success', lesson).formatSuccess())
+		} catch (e) {
+			BaseController.resStatus(e, res)
+		}
+	}
+
+	static async getLessonsMarksInfo(req: JSObject, res: Response) {
+		try {
+			const data = await LessonsService.getLessonsMarks()
+			res.status(201).send(new BaseRestInterface(201, 'success', data).formatSuccess())
 		} catch (e) {
 			BaseController.resStatus(e, res)
 		}
